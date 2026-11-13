@@ -12,8 +12,15 @@
         {% else %}
             <a href="{% url 'login' %}">Login</a>
             <a href="{% url 'signup' %}">Sign Up</a>
-        {% endif %} 
+        {% endif %}
         </nav>
-        <main>{% block content %}{% endblock %}</main>
+        <main>
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="{{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+            {% block content %}{% endblock %}
+        </main>
     </body>
 </html>
