@@ -7,6 +7,7 @@
     <li>Members: {{ member_count }}</li>
     <li>Last Login: {{ user.last_login|date:"M d, Y" }}</li>
 </ul>
+<a href="{% url 'profile' %}">Edit Profile</a>
 {% if is_admin %}
     <a href="{% url 'admin_panel' %}">Open Admin Panel</a>
 {% endif %}

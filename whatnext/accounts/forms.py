@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
+from django import forms
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
@@ -13,3 +14,9 @@ class CustomUserCreationForm(UserCreationForm):
             raise forms.validationError("This email is already registered.")
 
         return email
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ["username", "first_name", "last_name", "email"]
