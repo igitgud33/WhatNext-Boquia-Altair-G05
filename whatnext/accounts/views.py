@@ -10,6 +10,7 @@ class SignUpView(CreateView):
 
     def form_valid(self, form):
         messages.success(self.request, "Account created successfully! You may now log in.")
+        return super().form_invalid(form)
 
     def form_invalid(self, form):
         messages.success(self.request, "Error! Please correct your credentials.")
