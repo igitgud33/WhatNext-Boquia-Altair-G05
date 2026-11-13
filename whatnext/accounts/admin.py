@@ -6,8 +6,10 @@ from .models import CustomUser
 class CustomUserAdmin(UserAdmin):
     list_display = ["username", "email","role", "is_staff"]
     list_filter = ["role", "is_staff"]
-    fieldsets = UserAdmin.fieldsets + ("WhatNext Account Information", {
+    fieldsets = UserAdmin.fieldsets + (
+        ("WhatNext Account Information", {
         "fields": ("role",)
     }),
+)
 
 

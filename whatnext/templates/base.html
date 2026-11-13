@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head><title>WhatNext</title></head>
+    <body>
+        <nav>
+        {% if user.is_authenticated %}
+            Hello, {{ user.username }}!
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Log Out</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}">Sign Up</a>
+        {% endif %} 
+        </nav>
+        <main>{% block content %}{% endblock %}</main>
+    </body>
+</html>
