@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}WhatNext - My Profile{% endblock %}
 
 {% block content %}
@@ -7,6 +8,21 @@
         <div class="card shadow-sm border-0">
             <div class="card-body p-4">
                 <h2 class="text-center mb-4">My Profile</h2>
+
+                <div class="text-center mb-4">
+                    {% if user.profile_photo %}
+                        <img src="{{ user.profile_photo.url }}"
+                        alt="Profile Photo"
+                        class="rounded-circle mb-3"
+                        width="130"
+                        height="130"
+                        style="object-fit: cover;">
+                    {% else %}
+                        <div class="rounded-circle bg-secondary text-white
+                    d-flex align-items-center justify-content-center mx-auto mb-3"
+             style="width: 130px; height: 130px;">
+            <i class="bi bi-person-fill" style="font-size: 60px;"></i>
+                    {% endif %}
 
                 <form method="post">
                     {% csrf_token %}
