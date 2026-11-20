@@ -1,3 +1,35 @@
 {% extends "base.html" %}
 
-{% block-title %}
+{% block title %}Media Catalog - WhatNext{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Media Catalog</h2>
+    <p>Browse games, movies, and books, to add to your backlog.</p>
+
+    {% if media_items %}
+        <div class="row">
+            {% for item in media_items %}
+                <div class="col-md-4 mb33">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.title }}</h5>
+                            <p class="card-text">
+                                Type: {{ item.media_type.type_name }}
+                            </p>
+                            <p class="card-text">
+                                {{ item.description|default:"No description available."}}
+                            </p>
+                            {% if item.release_date %}
+                                <p>Release Date: {{ item.release_date }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No media items have been added to the catalog yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
