@@ -16,6 +16,11 @@ class MediaItem(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     release_date = models.DateTimeField()
+    cover_image = models.ImageField(
+        upload_to="media_covers/",
+        null=True,
+        blank=True
+    )
 
 class UserMedia(models.Model):
     class Status(models.TextChoices):

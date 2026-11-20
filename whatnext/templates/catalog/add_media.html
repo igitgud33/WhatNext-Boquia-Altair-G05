@@ -1,0 +1,29 @@
+
+{% extends "base.html" %}
+
+{% block title %}Add Media - WhatNext{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="mb-3">Submit New Media</h2>
+            <p>Add a game, movie, or book to the shared catalog.</p>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit" class="btn btn-primary">
+                    Submit Media
+                </button>
+
+                <a href="{% url 'catalog:media_list' %}" class="btn btn-secondary">
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

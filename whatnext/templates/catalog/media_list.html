@@ -10,8 +10,14 @@
     {% if media_items %}
         <div class="row">
             {% for item in media_items %}
-                <div class="col-md-4 mb33">
+                <div class="col-md-4 mb-3">
                     <div class="card h-100">
+                        {% if item.cover_image %}
+                            <img src="{{ item.cover_image.url }}"
+                            class="card-img-top"
+                            alt="{{ item.title }} cover"
+                            style="height: 250px; object-fit: contain;">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ item.title }}</h5>
                             <p class="card-text">
