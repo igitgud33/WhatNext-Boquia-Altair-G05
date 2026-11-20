@@ -1,0 +1,70 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Backlog - WhatNext{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>My Backlog</h2>
+    <p>Keep track of the games, movies, and books you want to experience.</p>
+
+    {% if backlog_items %}
+        <div class="row">
+            {% for entry in backlog_items %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+
+                        {% if entry.media.cover_image %}
+                            <img src="{{ entry.media.cover_image.url }}"
+                                 class="card-img-top"
+                                 alt="{{ entry.media.title }} cover"
+                                 style="height: 250px; object-fit: contain;">
+                        {% endif %}
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{ entry.media.title }}</h5>
+
+                            <p>Type: {{ entry.media.media_type.type_name }}</p>
+
+                            <p>
+                                Current Status: {{ entry.get_status_display }}
+                            </p>
+                            
+                            <p>
+                                {{ entry.media.description|default:"No description available." }}
+                            </p>
+
+                            <form method="POST" action="{% url 'catalog:update_backlog_status' entry.id %}">
+                                {% csrf_token %}
+
+                                <label for="status-{{ entry.id }}">Change Status:</label>
+
+                                <select name="status" id="status-{{ entry.id }}" class="form-select mb-2">
+                                    {% for value, label in status_choices %}
+                                        <option value="{{ value }}" {% if entry.status == value %}selected{% endif %}>
+                                            {{ label }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    Update Status
+                                </button>
+                            </form>
+                            <form method="POST" action="{% url 'catalog:remove_from_backlog' entry.id %}" class="mt-2">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    Remove from My Backlog
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Your backlog is currently empty. Browse the catalog to add some media!</p>
+    {% endif %}
+</div>
+{% endblock %}

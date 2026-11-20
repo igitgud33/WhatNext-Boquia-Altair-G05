@@ -29,6 +29,12 @@
                             {% if item.release_date %}
                                 <p>Release Date: {{ item.release_date }}</p>
                             {% endif %}
+                            
+                            <!--btns-->
+                            <form method="POST" action="{% url 'catalog:add_to_backlog' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Add to My Backlog</button>
+                            </form>
                         </div>
                     </div>
                 </div>
