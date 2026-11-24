@@ -15,6 +15,7 @@ def media_list(request):
         "media_items": media_items
     })
 
+@login_required
 def add_media(request):
     if request.method == "POST":
         form = MediaItemForm(request.POST, request.FILES)
