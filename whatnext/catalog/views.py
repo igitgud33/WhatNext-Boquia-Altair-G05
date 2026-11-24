@@ -7,6 +7,11 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST
 
 
+# checks user role on media management
+def can_manage_media(user, media):
+    return user.role == "ADMIN" or media.created_by_id == user.id
+
+
 # Create your views here.
 def media_list(request):
     media_items = MediaItem.objects.select_related("media_type").all()
@@ -34,6 +39,31 @@ def add_media(request):
     return render(request, "catalog/add_media.html", {
         "form": form
     })
+
+# edit media view
+@login_required
+def edit_media(request, media_id):
+    media = get_object_or_404(MediaItem, id=media_id)
+
+    if not can_manage_media(request.user, media):
+        messages.error(request, "You do not have permission to edit this media.")
+        return redirect("catalog:media_list")
+
+    if request.method == "POST":
+        form = MediaItemForm(request.POST, request.FILES, instance=media)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Media successfully updated!")
+            return redirect("catalog:media_list")
+    else:
+        form = MediaItemForm(instance=media)
+    
+    return render(request, "catalog/edit_media.html", {
+        "form": form,
+        "media": media
+    })
+
 
 # add to backlog message
 @login_required
