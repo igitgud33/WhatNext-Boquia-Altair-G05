@@ -11,4 +11,5 @@ urlpatterns = [
     path("update-status/<int:entry_id>/", views.update_backlog_status, name="update_backlog_status"),
     path("remove-from-backlog/<int:entry_id>/", views.remove_from_backlog, name="remove_from_backlog"),
     path("edit/<int:media_id>/", views.edit_media, name="edit_media"),
+    path("delete/<int:media_id>/", views.delete_media, name="delete_media"),
 ]

@@ -64,6 +64,24 @@ def edit_media(request, media_id):
         "media": media
     })
 
+# delete media view
+@login_required
+def delete_media(request, media_id):
+    media = get_object_or_404(MediaItem, id=media_id)
+
+    if not can_manage_media(request.user, media):
+        messages.error(request, "You do not have permission to delete this media.")
+        return redirect("catalog:media_list")
+    
+    if request.method == "POST":
+        media.delete()
+        messages.success(request, "Media successfully deleted!")
+        return redirect("catalog:media_list")
+
+    return render(request, "catalog/delete_media.html", {
+        "media":media,
+    })
+
 
 # add to backlog message
 @login_required
