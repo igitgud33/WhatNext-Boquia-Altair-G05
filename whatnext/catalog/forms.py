@@ -1,5 +1,5 @@
 from django import forms
-from .models import MediaItem
+from .models import MediaItem, UserMedia
 
 # shared catalog info
 class MediaItemForm(forms.ModelForm):
@@ -15,6 +15,8 @@ class MediaItemForm(forms.ModelForm):
 class UserMediaForm(forms.ModelForm):
     class Meta:
         model = UserMedia
+        
+        # ensures user only access these fields
         fields = ['rating', 'review', 'notes']
         widgets = {
             "ratings": forms.Select(
