@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 
 class MediaType(models.Model):
@@ -56,18 +55,8 @@ class UserMedia(models.Model):
         default=Status.WISHLISTED
     )
 
-    rating = models.PositiveSmallIntegerField(
-        null=True,
-        blank=True,
-        validators=[MinValueValidator(1), MaxValueValidator(5)]
-    )
-    
-    review = models.TextField(blank=True)
-    notes = models.TextField(blank=True)
-
     date_added = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
 
     class Meta:
         constraints=[

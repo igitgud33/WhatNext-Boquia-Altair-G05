@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import MediaItem, UserMedia
-from .forms import MediaItemForm, UserMediaForm
+from .forms import MediaItemForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST
