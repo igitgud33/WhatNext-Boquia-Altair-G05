@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import MediaItem, UserMedia
-from .forms import MediaItemForm
+from .forms import MediaItemForm, UserMediaForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST
@@ -36,7 +36,7 @@ def add_media(request):
     else:
         form = MediaItemForm()
 
-    return render(request, "catalog/add_media.html", {
+    return render(request, "catalog/admin/add_media.html", {
         "form": form
     })
 
@@ -59,7 +59,7 @@ def edit_media(request, media_id):
     else:
         form = MediaItemForm(instance=media)
     
-    return render(request, "catalog/edit_media.html", {
+    return render(request, "catalog/admin/edit_media.html", {
         "form": form,
         "media": media
     })
@@ -78,7 +78,7 @@ def delete_media(request, media_id):
         messages.success(request, "Media successfully deleted!")
         return redirect("catalog:media_list")
 
-    return render(request, "catalog/delete_media.html", {
+    return render(request, "catalog/admin/delete_media.html", {
         "media":media,
     })
 
@@ -150,3 +150,29 @@ def remove_from_backlog(request, entry_id):
     messages.success(request, "Media removed from your backlog.")
 
     return redirect("catalog:my_backlog")
+
+
+# edit user media
+@login_required
+def edit_user_media(request, entry_id):
+    
+    # ensures users only edit their own entries
+    entry = get_object_or_404(UserMedia, id=entry_id, user=request.user)
+
+    if request.method == "POST":
+        # saving won't change shared catalog item
+        form = UserMediaForm(request.POST, instance=entry)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your personal input has been updated")
+            return redirect("catalog:my_backlog")
+    
+    else:
+        # existing ratings & reviews appear when reopening form
+        form = UserMediaForm(instance=entry)
+
+    return render(request, "catalog/user/edit_user_media.html", {
+        "form": form,
+        "entry": entry
+    })
