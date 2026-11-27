@@ -35,6 +35,12 @@
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-primary">Add to My Backlog</button>
                             </form>
+                            {% if user.role == "ADMIN" or item.created_by_id == user.id %}
+                                <div class="d-flex gap-2 mt-2">
+                                    <a href="{% url 'catalog:edit_media' item.id %}" class="btn btn-warning">Edit</a>
+                                    <a href="{% url 'catalog:delete_media' item.id %}" class = "btn btn-warning">Delete</a>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

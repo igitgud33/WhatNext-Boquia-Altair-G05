@@ -8,46 +8,25 @@
             rel="stylesheet">
     </head>
     <body>
-        
-        <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
-            <a class="navbar-brand" href="{% url 'catalog:media_list' %}">
-                WhatNext
-            </a>
+        {% if user.is_authenticated %}      
+            <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">    
+                <a class="navbar-brand" href="{% url 'catalog:media_list' %}">WhatNext</a>
+                <span class="navbar-text me-3">Hello, {{ user.username }}!</span>
 
-            {% if user.is_authenticated %}
-                <span class="navbar-text me-3">
-                    Hello, {{ user.username }}!
-                </span>
-
-                <a href="{% url 'catalog:media_list' %}" class="nav-link me-3">
-                    Media Catalog
-                </a>
-
-                <a href="{% url 'catalog:my_backlog' %}" class="nav-link me-3">
-                    My Backlog
-                </a>
+                <a href="{% url 'catalog:media_list' %}" class="nav-link me-3">Media Catalog</a>
+                <a href="{% url 'catalog:my_backlog' %}" class="nav-link me-3">My Backlog</a>
 
                 <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-danger btn-sm">
-                        Log Out
-                    </button>
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Log Out</button>
                 </form>
-            {% else %}
-                <a href="{% url 'catalog:media_list' %}" class="nav-link me-3">
-                    Media Catalog
-                </a>
-
-                <a href="{% url 'login' %}" class="nav-link me-3">
-                    Login
-                </a>
-
-                <a href="{% url 'signup' %}" class="nav-link">
-                    Sign Up
-                </a>
+            </nav>                
+            {% else %}  
+                <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
+                    <a class="navbar-brand">WhatNext</a>
+                </nav>
             {% endif %}
         </nav>
-
         <main>
             {% if messages %}
                 {% for message in messages %}
